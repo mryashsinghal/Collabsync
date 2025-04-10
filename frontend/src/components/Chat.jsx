@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { StoreContext } from '../context/StoreContext.jsx';
 
 
-const socket = io("http://localhost:5000"); // Update with actual backend URL
+const socket = io("https://collabsync-backend.onrender.com"); // Update with actual backend URL
 
 export default function Chat({ projectId, userId, userName, userProfile }) {
   const [messages, setMessages] = useState([]);
