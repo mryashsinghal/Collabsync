@@ -14,7 +14,7 @@ const StoreContextProvider = (props) => {
     let [person,setPerson] = React.useState(null);
     let [icon, setIcon] = React.useState(localStorage.getItem('profile'));
     let [user,setUser] = React.useState(null);
-    const url = 'http://localhost:5000';
+    const url = 'https://collabsync-backend.onrender.com';
     useEffect(()=>{
            setId(localStorage.getItem("id"));
            const handledata = async () => {
