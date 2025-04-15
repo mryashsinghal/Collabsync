@@ -18,9 +18,9 @@ const Footer = () => {
         <div className="company flex flex-col text-start mb-8 md:mb-0">
           <h1 className='text-white mb-4'>Quick Links</h1>
           <a href="/" className="hover:text-white">Home</a>
-          <a href="/dashboard" className="hover:text-white">Explore Projects</a>
-          <a href="/dashboard" className="hover:text-white">Explore Users</a>
+          <a href="/dashboard" className="hover:text-white">Explore</a>
           <a href="/profile" className="hover:text-white">Profile</a>
+          <a href="/create" className="hover:text-white">Create Project</a>
         </div>
         <div className="contact text-start mr-0 md:mr-14">
           <h1 className='text-white mb-4 mt-2'>Contact Us</h1>
