@@ -12,6 +12,7 @@ const SignupForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [message, setMessage] = useState('');
     let {setId,url} = useContext(StoreContext);
 
     const handleSignup = async (e) => {
@@ -22,20 +23,22 @@ const SignupForm = () => {
 
         }else{
             const res = await axios.post(`${url}/api/users/register`,{username,email,password});
-            if(res){
-               console.log(res);
-              //  await setId(res.data._id);
-               // localStorage.setItem('id' , res.data._id);
-               // toast.success("User Registered"); 
-                navigate('/auth');
+            if (res.status === 200) {
+                // Display success message
+                setMessage("Successfully registered! Please verify your email.");
+                // Optionally redirect after a delay
+                setTimeout(() => {
+                    navigate('/auth');
+                }, 3000); // Redirect after 3 seconds
             } 
             else{
-                alert(res.data.message);
+                alert(error.response?.data?.message || "Registration failed. Please try again.");
             }
         }
     };
 
     return (
+        <div className="">
         <form onSubmit={handleSignup} className="space-y-4">
             <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
             <input
@@ -72,6 +75,8 @@ const SignupForm = () => {
             />
             <button type="submit" className="w-full bg-[#58B4F0] text-white font-semibold py-2 rounde hover:bg-[#72C8FF] shadow-md">Sign Up</button>
         </form>
+        {message && <p className="mt-4 text-green-600 font-medium">{message}</p>}
+        </div>
     );
 };
 

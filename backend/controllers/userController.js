@@ -76,7 +76,7 @@ const registerUser = async (req, res) => {
     try {
       await transporter.sendMail(mailOptions);
       console.log("Verification email sent successfully!");
-      res.status(201).json({ message: "Verification email sent!" });
+      res.status(200).json({ message: "Verification email sent!" });
     } catch (error) {
       console.error("Error sending verification email:", error);
       res.status(500).json({ message: "Failed to send verification email" });
@@ -229,6 +229,62 @@ const getUsers = async (req,resp) =>{
   }
 }
 
+const resendMail = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
+  try {
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user is already verified
+    if (user.isVerified) {
+      return res.status(400).json({ message: "User is already verified." });
+    }
+
+    // Generate a new verification token
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    // Configure the email transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      secure: true,
+      port: 465,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    // Verification link
+    const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
+
+    // Email options
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Resend Verification Email",
+      text: `Click the following link to verify your email: ${verificationLink}`,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: "Verification email resent successfully!" });
+  } catch (error) {
+    console.error("Error resending verification email:", error);
+    res.status(500).json({ message: "Failed to resend verification email" });
+  }
+};
+
 
 // JWT Token generation
 const generateToken = (id) => {
@@ -237,4 +293,4 @@ const generateToken = (id) => {
   });
 };
 
-export  {registerUser,loginUser,getUserProfile,updateUserProfile,getUsers,verifyEmail}
+export  {registerUser,loginUser,getUserProfile,updateUserProfile,getUsers,verifyEmail,resendMail}

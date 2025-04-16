@@ -8,6 +8,7 @@ const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { setId, url,setUser } = useContext(StoreContext);
+    const [message, setMessage] = useState("");
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -27,12 +28,25 @@ const LoginForm = () => {
                 alert(res.data.message);
             }
         } catch (error) {
-            console.error("Login error:", error);
-            alert("Failed to log in. Please check your credentials.");
+            if (error.response?.data?.message === "Please verify your email first") {
+                setMessage("Your email is not verified. Please verify your email.");
+              } else {
+                setMessage(error.response?.data?.message || "Login failed.");
+              }
         }
     };
 
+    const handleResendVerification = async () => {
+        try {
+          const res = await axios.post(url + "/api/users/resend-verification", { email });
+          setMessage(res.data.message);
+        } catch (error) {
+          setMessage(error.response?.data?.message || "Failed to resend verification email.");
+        }
+      };
+
     return (
+        <div className="">
         <form onSubmit={handleLogin} className="space-y-4">
             <h2 className="text-2xl font-semibold mb-4">Login</h2>
             <input
@@ -58,6 +72,12 @@ const LoginForm = () => {
                 Log In
             </button>
         </form>
+        {message && <p>{message}</p>}
+      {message === "Your email is not verified. Please verify your email." && (
+        <button onClick={handleResendVerification}>Resend Verification Email</button>
+      )}
+
+        </div>
     );
 };
 

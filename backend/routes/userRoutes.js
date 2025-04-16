@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser, getUserProfile ,updateUserProfile,getUsers,verifyEmail} from '../controllers/userController.js';
+import { registerUser, loginUser, getUserProfile ,updateUserProfile,getUsers,verifyEmail,resendMail} from '../controllers/userController.js';
 import protect from '../middleware/authMiddleware.js';
 
 
@@ -11,6 +11,7 @@ router.get('/verify-email',verifyEmail);
 
 // User login
 router.post('/login', loginUser);
+router.post('/resend-verification',resendMail);
 
 // Get user profile (protected route)
 router.get('/profile/:id', getUserProfile);
