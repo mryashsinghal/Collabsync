@@ -58,7 +58,11 @@ function Profile() {
     <div className='bg-[#c0d3fc] flex flex-col md:flex-row'>
       <div className=" md:w-1/3 bg-[#13213f]  m-7 p-8 rounded-md shadow-2xl shadow-[#00ffff48] ">
         <div className="flex flex-col items-center">
-          <img src={image} width={100} height={100} alt="" className='border-4 rounded-full object-cover' />
+        <img
+    src={image}
+    alt="Profile"
+    className="w-24 h-24 rounded-full object-cover border-4 border-white"
+  />
           <p className='text-[#a0bff8] mt-6 font-medium text-3xl'>{profile.user}</p>
           <p className='text-[#00ffffa9] mt-6  text-xl'>{profile.college? profile.college : ""}</p>
           {isOwnProfile && <button className='bg-[#00ffff45] p-2 w-[80%] mt-4 rounded-lg text-[cyan] font-medium' onClick={() => navigate("/edit")}>Edit Profile</button>}

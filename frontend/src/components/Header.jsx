@@ -30,7 +30,7 @@ const Header = () => {
           onMouseEnter={() => setProf_nav(true)}
           onMouseLeave={() => setProf_nav(false)}
         >
-          <img src={icon ? `${icon}` : `profile_icon.png`} alt="profile" className='h-8 rounded-[50%] object-cover' />
+          <img src={icon ? `${icon}` : `profile_icon.png`} alt="profile" className='h-8 w-8 rounded-full object-cover' />
         </div>
       </div>
       <div className="md:hidden flex items-center">
