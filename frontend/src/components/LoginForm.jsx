@@ -21,6 +21,7 @@ const LoginForm = () => {
                 setId(res.data.user.id);
                 localStorage.setItem("authToken", res.data.token);
                 localStorage.removeItem("dashboardSection");
+                localStorage.setItem('id',res.data.user.id);
                 await setUser(res.data.user);
                 navigate('/dashboard');
             
